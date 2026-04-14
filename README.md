@@ -33,7 +33,7 @@
 ### 编译步骤
 
 ```bash
-# 安装依赖（Ubuntu 24.04）
+# 安装依赖（Ubuntu 22.04）
 apt-get update && apt-get install -y \
     cmake \
     g++-13 \
