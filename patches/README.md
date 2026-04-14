@@ -51,6 +51,33 @@ git apply patches/ggml-hip-fcommon.patch
 sudo patch -p1 < patches/amd_hip_bf16-static.patch
 ```
 
+### 4. row-split-hip-fix.patch
+修复 `--split-mode row` 导致输出乱码的问题。
+
+**问题**：在 gfx906 上使用 `--split-mode row` 时，模型输出出现乱码。这是因为 `ggml_cuda_Memcpy2DPeerAsync` 函数在 HIP 中使用 `hipMemcpy2DAsync` 进行跨 GPU 2D 内存拷贝，在 gfx906 上不正确工作。
+
+**修复**：改用 `hipMemcpyPeerAsync` 循环替代 `hipMemcpy2DAsync`，确保跨 GPU 内存拷贝正确执行。
+
+**适用范围**：ggml/src/ggml-cuda/ggml-cuda.cu
+
+**应用方法**：
+```bash
+cd /path/to/llama.cpp
+git apply patches/row-split-hip-fix.patch
+```
+
+**修复效果**：
+- ✅ `--split-mode row` 正常工作
+- ✅ 双 GPU 负载均衡
+- ✅ 输出正确（不再乱码）
+
+## 补丁应用顺序
+
+建议按以下顺序应用补丁：
+1. `ggml-hip-fcommon.patch` - 修复链接问题
+2. `ggml-cuda-hipStreamWaitEvent.patch` - 修复 API 兼容性
+3. `row-split-hip-fix.patch` - 修复 row split 乱码（可选）
+
 ## 完整编译流程
 
 详见 ../README.md 中的"完整编译流程"章节。
