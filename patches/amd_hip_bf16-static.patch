@@ -1,0 +1,29 @@
+diff --git a/usr/include/hip/amd_detail/amd_hip_bf16.h b/usr/include/hip/amd_detail/amd_hip_bf16.h
+--- a/usr/include/hip/amd_detail/amd_hip_bf16.h
++++ b/usr/include/hip/amd_detail/amd_hip_bf16.h
+@@ -205,7 +205,7 @@ __HOST_DEVICE__ __hip_bfloat162 __h2div(const __hip_bfloat162 a, const __hip_bf
+     return __hip_bfloat162{__float2bfloat16(a.x / b.x), __float2bfloat16(a.y / b.y)};
+ }
+ 
+-__HOST_DEVICE__ __hip_bfloat16 __double2bfloat16(const double a) {
++__HOST_DEVICE__ static __hip_bfloat16 __double2bfloat16(const double a) {
+     return __float2bfloat16((float)a);
+ }
+ 
+@@ -243,7 +243,7 @@ __HOST_DEVICE__ __hip_bfloat162 __float2bfloat16_rn(const float2 a) {
+     return __hip_bfloat162{__float2bfloat16(a.x), __float2bfloat16(a.y)};
+ }
+ 
+-__HOST_DEVICE__ float __high2float(const __hip_bfloat162 a) { return __bfloat162float(a.y); }
++__HOST_DEVICE__ static float __high2float(const __hip_bfloat162 a) { return __bfloat162float(a.y); }
+ 
+ /**
+  * @}
+@@ -271,7 +271,7 @@ __HOST_DEVICE__ __hip_bfloat162 __float2bfloat16_rn(const float2 a) {
+  * \details Create bfloat16 from unsigned short value. Uses unsigned short as underlying type.
+  */
+-__HOST_DEVICE__ float __low2float(const __hip_bfloat162 a) { return __bfloat162float(a.x); }
++__HOST_DEVICE__ static float __low2float(const __hip_bfloat162 a) { return __bfloat162float(a.x); }
+
+ /**
+  * \ingroup HIP_INTRINSIC_BFLOAT16_CONV

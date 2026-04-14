@@ -1,0 +1,6 @@
+--- a/ggml/src/ggml-hip/CMakeLists.txt
++++ b/ggml/src/ggml-hip/CMakeLists.txt
+@@ -104,6 +104,7 @@ if (NOT GGML_BACKEND_DL)
+     target_compile_definitions(ggml PUBLIC GGML_USE_CUDA)
+     target_compile_options(ggml PRIVATE "$<$<COMPILE_LANGUAGE:HIP>:-fcommon>")
+ endif()
